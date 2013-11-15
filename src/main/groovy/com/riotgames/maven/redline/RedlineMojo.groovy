@@ -98,6 +98,13 @@ class RedlineMojo extends GroovyMojo {
     def boolean attach
 
     /**
+     * Classifier for the attached rpm.
+     *
+     * @parameter
+     */
+    def String classifier = ""
+
+    /**
      * @parameter expression="${project}"
      * @required
      * @readonly
@@ -154,7 +161,7 @@ class RedlineMojo extends GroovyMojo {
         if(attach) {
             ArtifactHandler artifactHandler = new DefaultArtifactHandler()
             artifactHandler.setExtension("rpm")
-            Artifact artifact = new DefaultArtifact(project.groupId, project.artifactId, project.version, "", "rpm", "", artifactHandler)
+            Artifact artifact = new DefaultArtifact(project.groupId, project.artifactId, project.version, "", "rpm", classifier, artifactHandler)
             artifact.setFile(new File("${rpmDestination.absolutePath}/$rpmName"))
             mavenProjectHelper.attachArtifact(this.project, artifact.type, artifact.classifier, artifact.file)
         }
